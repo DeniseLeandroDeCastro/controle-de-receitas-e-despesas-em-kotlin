@@ -8,10 +8,13 @@ import android.widget.BaseAdapter
 import androidx.core.content.ContextCompat
 import com.example.financask.R
 import com.example.financask.extension.formataParaBrasileiro
+import com.example.financask.extension.limitaEmAte
 import com.example.financask.model.Tipo
 import com.example.financask.model.Transacao
 import kotlinx.android.synthetic.main.transacao_item.view.*
 
+
+private val limiteDaCategoria = 14
 
 class ListaTransacoesAdapter(transacoes: List<Transacao>,
                              context: Context):BaseAdapter() {
@@ -41,14 +44,16 @@ class ListaTransacoesAdapter(transacoes: List<Transacao>,
             viewCriada.transacao_icone
                     .setBackgroundResource(R.drawable.icone_transacao_item_despesa)
         }
-
-        viewCriada.transacao_valor.text = transacao.valor.formataParaBrasileiro()
+        viewCriada.transacao_valor.text = transacao.valor
+                .formataParaBrasileiro()
         viewCriada.transacao_categoria.text = transacao.categoria
-        viewCriada.transacao_data.text = transacao.data.formataParaBrasileiro()
+                .limitaEmAte(limiteDaCategoria)
+        viewCriada.transacao_data.text = transacao.data
+                .formataParaBrasileiro()
 
         return viewCriada
     }
-   
+
     //Função que mostra a quantidade de itens
     override fun getCount(): Int {
         return transacoes.size

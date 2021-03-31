@@ -1,11 +1,15 @@
 package com.example.financask.extension
 
 
-//Função para limitar o número de caracteres de uma string
+/**
+ * Formata o tamanho das strings, ex.:
+ * a frase: Almoço de final de semana, será
+ * exibida desta forma:
+ * Almoço de fina...
+ */
 fun String.limitaEmAte(caracteres: Int) : String {
-    if(this.length > caracteres) {
-        val primeiroCaracter = 0
-        return "${this.substring(primeiroCaracter, caracteres)}..."
+    if (this.length > caracteres) {
+        return "${this.substring(0, caracteres)}..."
     }
     return this
 }
