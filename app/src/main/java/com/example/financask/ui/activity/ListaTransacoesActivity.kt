@@ -23,22 +23,28 @@ class ListaTransacoesActivity : AppCompatActivity() {
          * Utilizando o construtor sobrecarregado, não importa
          * em que ordem estão os atributos
          */
-        val transacoes = listOf(Transacao(valor = BigDecimal(20.50),
-                                          tipo = Tipo.DESPESA,
-                                          categoria = "Almoço de final de semana",
-                                          data = Calendar.getInstance()),
+        val transacoes: List<Transacao> = transacoesDeExemplo()
 
-                                 Transacao(valor = BigDecimal(100.00),
-                                           categoria = "Economia",
-                                           tipo = Tipo.RECEITA,
-                                           data = Calendar.getInstance()),
+        configuraLista(transacoes)
+    }
 
-                                 Transacao(valor = BigDecimal(200.00),
-                                            tipo = Tipo.DESPESA),
-                                 Transacao(valor = BigDecimal(500.00),
-                                            categoria = "Prêmio",
-                                            tipo = Tipo.RECEITA))
-
+    private fun configuraLista(transacoes: List<Transacao>) {
         lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoes, this)
     }
+
+    private fun transacoesDeExemplo() = listOf(Transacao(valor = BigDecimal(20.50),
+            tipo = Tipo.DESPESA,
+            categoria = "Almoço de final de semana",
+            data = Calendar.getInstance()),
+
+            Transacao(valor = BigDecimal(100.00),
+                    categoria = "Economia",
+                    tipo = Tipo.RECEITA,
+                    data = Calendar.getInstance()),
+
+            Transacao(valor = BigDecimal(200.00),
+                    tipo = Tipo.DESPESA),
+            Transacao(valor = BigDecimal(500.00),
+                    categoria = "Prêmio",
+                    tipo = Tipo.RECEITA))
 }
