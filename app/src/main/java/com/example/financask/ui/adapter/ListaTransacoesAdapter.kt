@@ -42,13 +42,13 @@ class ListaTransacoesAdapter(transacoes: List<Transacao>,
                     .setBackgroundResource(R.drawable.icone_transacao_item_despesa)
         }
 
-        viewCriada.transacao_valor.text = transacao.valor.toString()
+        viewCriada.transacao_valor.text = transacao.valor.formataParaBrasileiro()
         viewCriada.transacao_categoria.text = transacao.categoria
         viewCriada.transacao_data.text = transacao.data.formataParaBrasileiro()
 
         return viewCriada
     }
-
+   
     //Função que mostra a quantidade de itens
     override fun getCount(): Int {
         return transacoes.size
