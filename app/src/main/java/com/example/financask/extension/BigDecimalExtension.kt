@@ -12,6 +12,4 @@ fun BigDecimal.formataParaBrasileiro() : String {
             .format(this)
             .replace("R$", "R$")
             .replace("-R$", "R$ -")
-
-
 }
