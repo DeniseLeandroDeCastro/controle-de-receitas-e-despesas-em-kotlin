@@ -1,16 +1,31 @@
 package com.example.financask.ui
 
-import android.content.Context
 import android.view.View
-import androidx.core.content.ContextCompat
-import com.example.financask.R
 import com.example.financask.extension.formataParaBrasileiro
-import com.example.financask.model.Resumo
+import com.example.financask.model.Tipo
 import com.example.financask.model.Transacao
 import kotlinx.android.synthetic.main.resumo_card.view.*
 import java.math.BigDecimal
 
-class ResumoView(private val context: Context,
-                 private val view: View,
-                 transacoes: List<Transacao>) {
+class ResumoView(private val view: View,
+                 private val transacoes: List<Transacao>) {
+
+    fun adicionaReceita() {
+        var totalReceita = BigDecimal.ZERO
+        for (transacao in transacoes) {
+            if (transacao.tipo == Tipo.RECEITA) {
+                totalReceita = totalReceita.plus(transacao.valor) //soma o total da receita com o valor da transação
+            }
+        }
+        view.resumo_card_receita.text = totalReceita.formataParaBrasileiro()
+    }
+    fun adicionaDespesa() {
+        var totalReceita = BigDecimal.ZERO
+        for (transacao in transacoes) {
+            if (transacao.tipo == Tipo.DESPESA) {
+                totalReceita = totalReceita.plus(transacao.valor) //soma o total da receita com o valor da transação
+            }
+        }
+        view.resumo_card_despesa.text = totalReceita.formataParaBrasileiro()
+    }
 }
