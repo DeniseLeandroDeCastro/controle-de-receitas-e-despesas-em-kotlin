@@ -44,7 +44,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoes, this)
     }
 
-    private fun transacoesDeExemplo() = listOf(Transacao(valor = BigDecimal(20.50),
+    private fun transacoesDeExemplo() = listOf(Transacao(valor = BigDecimal(100.00),
             tipo = Tipo.DESPESA,
             categoria = "Almoço de final de semana",
             data = Calendar.getInstance()),
@@ -54,9 +54,9 @@ class ListaTransacoesActivity : AppCompatActivity() {
                     tipo = Tipo.RECEITA,
                     data = Calendar.getInstance()),
 
-            Transacao(valor = BigDecimal(700.00),
+            Transacao(valor = BigDecimal(200.00),
                     tipo = Tipo.DESPESA),
-            Transacao(valor = BigDecimal(500.00),
+            Transacao(valor = BigDecimal(200.00),
                     categoria = "Prêmio",
                     tipo = Tipo.RECEITA))
 }
