@@ -15,6 +15,8 @@ class ResumoView(private val context: Context,
                  transacoes: List<Transacao>) {
 
     private val resumo: Resumo = Resumo(transacoes)
+    private val corReceita = ContextCompat.getColor(context, R.color.receita)
+    private val corDespesa = ContextCompat.getColor(context, R.color.despesa)
 
     /**
      * Função para adiconar os valores da receita
@@ -23,11 +25,12 @@ class ResumoView(private val context: Context,
      */
     fun adicionaReceita() {
         val totalReceita = resumo.receita()
-        view.resumo_card_receita
-                .setTextColor(ContextCompat.getColor(context, R.color.receita))
-        view.resumo_card_receita.text = totalReceita
-                .formataParaBrasileiro()
+        with(view.resumo_card_receita) {
+            setTextColor(corReceita)
+            text = totalReceita.formataParaBrasileiro()
+        }
     }
+
     /**
      * Função para adiconar os valores da despesa
      * Cálculo referente a esta função está  na
@@ -35,24 +38,25 @@ class ResumoView(private val context: Context,
      */
     fun adicionaDespesa() {
         val totalDespesa = resumo.despesa()
-        view.resumo_card_despesa
-                .setTextColor(ContextCompat.getColor(context, R.color.despesa))
-        view.resumo_card_despesa.text = totalDespesa
-                .formataParaBrasileiro()
+        with(view.resumo_card_despesa) {
+            setTextColor(corDespesa)
+            text = totalDespesa.formataParaBrasileiro()
+        }
     }
+
     //Função para adicionar valores ao total
     fun adicionaTotal() {
         val total = resumo.total()
-        if(total.compareTo(BigDecimal.ZERO) >= 0) {
-            view.resumo_card_total
-                    .setTextColor(ContextCompat
-                            .getColor(context, R.color.receita))
-        } else {
-            view.resumo_card_total
-                    .setTextColor(ContextCompat
-                            .getColor(context, R.color.despesa))
+        val cor = corPorTipo(total)
+        with(view.resumo_card_total) {
+            setTextColor(cor)
+            text = total.formataParaBrasileiro()
         }
-        view.resumo_card_total.text = total
-                .formataParaBrasileiro()
+    }
+    private fun corPorTipo(valor: BigDecimal): Int {
+        if (valor >= BigDecimal.ZERO) {
+            return corReceita
+        }
+        return corDespesa
     }
 }
