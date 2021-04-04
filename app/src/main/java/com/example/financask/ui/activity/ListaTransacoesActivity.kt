@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -71,9 +72,18 @@ class ListaTransacoesActivity : AppCompatActivity() {
                                         .show()
                             }
 
+                    val adapter = ArrayAdapter
+                            .createFromResource(this,
+                                    R.array.categorias_de_receita,
+                                    android.R.layout.simple_spinner_dropdown_item)
+
+                    viewCriada.form_transacao_categoria.adapter = adapter
+
                     AlertDialog.Builder(this)
                             .setTitle(R.string.adiciona_receita) //Adiciona o título
                             .setView(viewCriada)
+                            .setPositiveButton("Adicionar", null)
+                            .setNegativeButton("Cancelar", null)
                             .show()
                 }
     }
