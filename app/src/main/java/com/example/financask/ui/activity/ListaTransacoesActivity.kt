@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.financask.R
@@ -16,13 +17,14 @@ import com.example.financask.ui.ResumoView
 import com.example.financask.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import kotlinx.android.synthetic.main.form_transacao.view.*
+import java.lang.NumberFormatException
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
-    private val transacoes : MutableList<Transacao> = mutableListOf()
+    private val transacoes: MutableList<Transacao> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +36,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         //Configurar o click do fab para adicionar uma receita
         lista_transacoes_adiciona_receita
                 .setOnClickListener {
-                    val view : View = window.decorView
+                    val view: View = window.decorView
                     //Criar o layout do AlertDialog
                     val viewCriada = LayoutInflater.from(this)
                             .inflate(R.layout.form_transacao,
@@ -56,9 +58,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
                                             viewCriada.form_transacao_data
                                                     .setText(dataSelecionada
                                                             .formataParaBrasileiro())
-                                        }
-
-                                        , ano, mes, dia)
+                                        }, ano, mes, dia)
                                         .show()
                             }
 
@@ -80,8 +80,17 @@ class ListaTransacoesActivity : AppCompatActivity() {
                                         .form_transacao_data.text.toString()
                                 val categoriaEmTexto = viewCriada
                                         .form_transacao_categoria.selectedItem.toString()
+                               
+                                val valor = try {
+                                    BigDecimal(valorEmTexto)
+                                } catch (exception: NumberFormatException) {
+                                    Toast.makeText(this,
+                                            "Falha na conversão de valor",
+                                            Toast.LENGTH_LONG)
+                                            .show()
+                                    BigDecimal.ZERO
+                                }
 
-                                val valor = BigDecimal(valorEmTexto)
 
                                 val formatoBrasileiro = SimpleDateFormat("dd/MM/yyyy")
                                 val dataConvertida: Date = formatoBrasileiro.parse(dataEmTexto)
