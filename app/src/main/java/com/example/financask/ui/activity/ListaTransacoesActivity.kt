@@ -1,7 +1,11 @@
 package com.example.financask.ui.activity
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.financask.R
 import com.example.financask.model.Tipo
@@ -30,6 +34,21 @@ class ListaTransacoesActivity : AppCompatActivity() {
         configuraResumo(transacoes)
 
         configuraLista(transacoes)
+        //Configurar o click do fab para adicionar uma receita
+        lista_transacoes_adiciona_receita
+                .setOnClickListener {
+                    val view : View = window.decorView
+                    //Criar o layout do AlertDialog
+                    val viewCriada = LayoutInflater.from(this)
+                            .inflate(R.layout.form_transacao, view as ViewGroup,
+                                    false)
+
+
+                    AlertDialog.Builder(this)
+                            .setTitle(R.string.adiciona_receita) //Adiciona o título
+                            .setView(viewCriada)
+                            .show()
+                }
     }
 
     private fun configuraResumo(transacoes: List<Transacao>) {

@@ -1,30 +1,25 @@
 package com.example.financask.model
 
-import android.view.View
 import java.math.BigDecimal
 
 class Resumo(private val transacoes: List<Transacao>) {
 
-    fun receita(): BigDecimal {
-            val somaDeReceita: Double = transacoes
-                    .filter { transacao -> transacao.tipo == Tipo.RECEITA }
-                    .sumByDouble { transacao -> transacao.valor.toDouble() }
-            return BigDecimal(somaDeReceita)
-        }
+    /**
+     * Utilizando single-expression function e depois
+     * convertendo para property
+     */
+    val receita get() = somaPorTipo(Tipo.RECEITA)
 
+    val despesa get() = somaPorTipo(Tipo.DESPESA)
 
-        fun despesa(): BigDecimal {
-            var totalDespesa = BigDecimal.ZERO
-            for (transacao in transacoes) {
-                if (transacao.tipo == Tipo.DESPESA) {
-                    totalDespesa = totalDespesa.plus(transacao.valor) //soma o total da despesa com o valor da transação
-                }
-            }
-            return totalDespesa
-        }
+    val total get() = receita.subtract(despesa)
 
-        fun total(): BigDecimal {
-            return receita().subtract(despesa())
-        }
+    //Função para fazer a soma por tipo da receita ou da despesa
+    private fun somaPorTipo(tipo: Tipo): BigDecimal {
+        val somaDeTransacoesPeloTipo = transacoes
+                .filter { it.tipo == Tipo.DESPESA }
+                .sumByDouble { it.valor.toDouble()}
+        return BigDecimal(somaDeTransacoesPeloTipo)
+    }
 }
 
