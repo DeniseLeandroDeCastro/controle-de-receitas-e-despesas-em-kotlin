@@ -17,7 +17,7 @@ class Resumo(private val transacoes: List<Transacao>) {
     //Função para fazer a soma por tipo da receita ou da despesa
     private fun somaPorTipo(tipo: Tipo): BigDecimal {
         val somaDeTransacoesPeloTipo = transacoes
-                .filter { it.tipo == Tipo.DESPESA }
+                .filter { it.tipo == tipo }
                 .sumByDouble { it.valor.toDouble()}
         return BigDecimal(somaDeTransacoesPeloTipo)
     }
