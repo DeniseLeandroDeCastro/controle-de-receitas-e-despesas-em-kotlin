@@ -1,18 +1,22 @@
 package com.example.financask.ui.activity
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.financask.R
+import com.example.financask.extension.formataParaBrasileiro
 import com.example.financask.model.Tipo
 import com.example.financask.model.Transacao
 import com.example.financask.ui.ResumoView
 import com.example.financask.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
+import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.math.BigDecimal
 import java.util.*
 
@@ -40,9 +44,32 @@ class ListaTransacoesActivity : AppCompatActivity() {
                     val view : View = window.decorView
                     //Criar o layout do AlertDialog
                     val viewCriada = LayoutInflater.from(this)
-                            .inflate(R.layout.form_transacao, view as ViewGroup,
+                            .inflate(R.layout.form_transacao,
+                                    view as ViewGroup,
                                     false)
 
+                    val ano = 2021
+                    val mes = 3
+                    val dia = 4
+
+
+                    val hoje = Calendar.getInstance()
+                    viewCriada.form_transacao_data
+                            .setText(hoje.formataParaBrasileiro())
+                    viewCriada.form_transacao_data
+                            .setOnClickListener {
+                                DatePickerDialog(this,
+                                        { view, ano, mes, dia ->
+                                            val dataSelecionada = Calendar.getInstance()
+                                            dataSelecionada.set(ano, mes, dia)
+                                            viewCriada.form_transacao_data
+                                                    .setText(dataSelecionada
+                                                            .formataParaBrasileiro())
+                                        }
+
+                                        , ano, mes, dia)
+                                        .show()
+                            }
 
                     AlertDialog.Builder(this)
                             .setTitle(R.string.adiciona_receita) //Adiciona o título
