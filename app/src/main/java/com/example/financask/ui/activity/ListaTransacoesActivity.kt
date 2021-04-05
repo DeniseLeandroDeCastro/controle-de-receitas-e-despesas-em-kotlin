@@ -1,28 +1,17 @@
 package com.example.financask.ui.activity
 
-import android.app.DatePickerDialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.financask.R
 import com.example.financask.delegate.TransacaoDelegate
-import com.example.financask.extension.formataParaBrasileiro
 import com.example.financask.model.Tipo
 import com.example.financask.model.Transacao
 import com.example.financask.ui.ResumoView
 import com.example.financask.ui.adapter.ListaTransacoesAdapter
 import com.example.financask.ui.dialog.AdicionaTransacaoDialog
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
-import kotlinx.android.synthetic.main.form_transacao.view.*
-import java.lang.NumberFormatException
-import java.math.BigDecimal
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
@@ -33,32 +22,37 @@ class ListaTransacoesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lista_transacoes)
 
         configuraResumo()
-
         configuraLista()
-        //Configurar o click do fab para adicionar uma receita
+        configuraFab()
+        /**
+         * Configurar o click do fab
+         * (Floating Action Button)
+         * para adicionar uma receita
+         * ou uma despesa
+         */
+    }
+
+    private fun configuraFab() {
         lista_transacoes_adiciona_receita
                 .setOnClickListener {
-                    AdicionaTransacaoDialog(window.decorView as ViewGroup, this)
-                            .configuraDialog(Tipo.RECEITA, object : TransacaoDelegate {
-                                override fun delegate(transacao: Transacao) {
-                                    atualizaTransacoes(transacao)
-                                    lista_transacoes_adiciona_menu.close(true)
-                                }
-
-                            })
+                    chamaDialogDeAdicao(Tipo.RECEITA)
                 }
         lista_transacoes_adiciona_despesa
                 .setOnClickListener {
-                    AdicionaTransacaoDialog(window.decorView as ViewGroup, this)
-                            .configuraDialog(Tipo.DESPESA, object : TransacaoDelegate {
-                                override fun delegate(transacao: Transacao) {
-                                    atualizaTransacoes(transacao)
-                                    lista_transacoes_adiciona_menu.close(true)
-                                }
-
-                            })
+                    chamaDialogDeAdicao(Tipo.DESPESA)
                 }
     }
+
+    private fun chamaDialogDeAdicao(tipo: Tipo) {
+        AdicionaTransacaoDialog(window.decorView as ViewGroup, this)
+                .chama(tipo, object : TransacaoDelegate {
+                    override fun delegate(transacao: Transacao) {
+                        atualizaTransacoes(transacao)
+                        lista_transacoes_adiciona_menu.close(true)
+                    }
+                })
+    }
+
     private fun atualizaTransacoes(transacao: Transacao) {
         transacoes.add(transacao)
         configuraLista()
