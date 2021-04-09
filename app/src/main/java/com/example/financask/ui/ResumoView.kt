@@ -10,7 +10,7 @@ import com.example.financask.model.Transacao
 import kotlinx.android.synthetic.main.resumo_card.view.*
 import java.math.BigDecimal
 
-class ResumoView(private val context: Context,
+class ResumoView(context: Context,
                  private val view: View,
                  transacoes: List<Transacao>) {
 
@@ -59,6 +59,7 @@ class ResumoView(private val context: Context,
             text = total.formataParaBrasileiro()
         }
     }
+
     private fun corPorTipo(valor: BigDecimal): Int {
         if (valor >= BigDecimal.ZERO) {
             return corReceita
